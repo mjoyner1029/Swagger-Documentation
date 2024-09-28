@@ -29,10 +29,13 @@ def create_employee():
           properties:
             id:
               type: integer
+              example: 1
             name:
               type: string
+              example: "John Doe"
             position:
               type: string
+              example: "Engineer"
       400:
         description: Invalid input
         schema:
@@ -40,14 +43,27 @@ def create_employee():
           properties:
             error:
               type: string
+              example: "Invalid data"
             message:
               type: string
+              example: "Position cannot be empty."
+      500:
+        description: Server error
+        schema:
+          id: ErrorResponse
+          properties:
+            error:
+              type: string
+              example: "Server Error"
+            message:
+              type: string
+              example: "An unexpected error occurred."
     """
     data = request.json
     new_employee = Employee(name=data['name'], position=data['position'])
     db.session.add(new_employee)
     db.session.commit()
-    return jsonify({'id': new_employee.id}), 201
+    return jsonify({'id': new_employee.id, 'name': new_employee.name, 'position': new_employee.position}), 201
 
 @bp.route('/employees', methods=['GET'])
 def get_employees():
@@ -63,10 +79,13 @@ def get_employees():
             properties:
               id:
                 type: integer
+                example: 1
               name:
                 type: string
+                example: "John Doe"
               position:
                 type: string
+                example: "Engineer"
     """
     employees = Employee.query.all()
     return jsonify([{'id': emp.id, 'name': emp.name, 'position': emp.position} for emp in employees]), 200

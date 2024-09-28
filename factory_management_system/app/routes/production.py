@@ -33,13 +33,17 @@ def create_production():
           properties:
             id:
               type: integer
+              example: 1
             product_id:
               type: integer
+              example: 1
             quantity_produced:
               type: integer
+              example: 100
             date_produced:
               type: string
               format: date
+              example: "2024-09-01"
       400:
         description: Invalid input
         schema:
@@ -47,8 +51,21 @@ def create_production():
           properties:
             error:
               type: string
+              example: "Invalid data"
             message:
               type: string
+              example: "Product ID does not exist."
+      500:
+        description: Server error
+        schema:
+          id: ErrorResponse
+          properties:
+            error:
+              type: string
+              example: "Server Error"
+            message:
+              type: string
+              example: "An unexpected error occurred."
     """
     data = request.json
     new_production = Production(product_id=data['product_id'], quantity_produced=data['quantity_produced'], date_produced=data['date_produced'])
@@ -70,13 +87,17 @@ def get_production():
             properties:
               id:
                 type: integer
+                example: 1
               product_id:
                 type: integer
+                example: 1
               quantity_produced:
                 type: integer
+                example: 100
               date_produced:
                 type: string
                 format: date
+                example: "2024-09-01"
     """
     productions = Production.query.all()
     return jsonify([{'id': prod.id, 'product_id': prod.product_id, 'quantity_produced': prod.quantity_produced, 'date_produced': prod.date_produced.isoformat()} for prod in productions]), 200

@@ -32,15 +32,20 @@ def create_order():
           properties:
             id:
               type: integer
+              example: 1
             customer_id:
               type: integer
+              example: 1
             product_id:
               type: integer
+              example: 1
             quantity:
               type: integer
+              example: 3
             total_price:
               type: number
               format: float
+              example: 59.97
       400:
         description: Invalid input
         schema:
@@ -48,8 +53,21 @@ def create_order():
           properties:
             error:
               type: string
+              example: "Invalid data"
             message:
               type: string
+              example: "Product ID does not exist."
+      500:
+        description: Server error
+        schema:
+          id: ErrorResponse
+          properties:
+            error:
+              type: string
+              example: "Server Error"
+            message:
+              type: string
+              example: "An unexpected error occurred."
     """
     data = request.json
     new_order = Order(customer_id=data['customer_id'], product_id=data['product_id'], quantity=data['quantity'], total_price=0)  # Calculate total price if needed
@@ -71,12 +89,16 @@ def get_orders():
             properties:
               id:
                 type: integer
+                example: 1
               customer_id:
                 type: integer
+                example: 1
               product_id:
                 type: integer
+                example: 1
               quantity:
                 type: integer
+                example: 3
     """
     orders = Order.query.all()
     return jsonify([{'id': ord.id, 'customer_id': ord.customer_id, 'product_id': ord.product_id, 'quantity': ord.quantity} for ord in orders]), 200

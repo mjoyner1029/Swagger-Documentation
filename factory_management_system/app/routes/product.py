@@ -30,11 +30,14 @@ def create_product():
           properties:
             id:
               type: integer
+              example: 1
             name:
               type: string
+              example: "Widget"
             price:
               type: number
               format: float
+              example: 19.99
       400:
         description: Invalid input
         schema:
@@ -42,14 +45,27 @@ def create_product():
           properties:
             error:
               type: string
+              example: "Invalid data"
             message:
               type: string
+              example: "Price must be a positive number."
+      500:
+        description: Server error
+        schema:
+          id: ErrorResponse
+          properties:
+            error:
+              type: string
+              example: "Server Error"
+            message:
+              type: string
+              example: "An unexpected error occurred."
     """
     data = request.json
     new_product = Product(name=data['name'], price=data['price'])
     db.session.add(new_product)
     db.session.commit()
-    return jsonify({'id': new_product.id}), 201
+    return jsonify({'id': new_product.id, 'name': new_product.name, 'price': new_product.price}), 201
 
 @bp.route('/products', methods=['GET'])
 def get_products():
@@ -65,11 +81,14 @@ def get_products():
             properties:
               id:
                 type: integer
+                example: 1
               name:
                 type: string
+                example: "Widget"
               price:
                 type: number
                 format: float
+                example: 19.99
     """
     products = Product.query.all()
     return jsonify([{'id': prod.id, 'name': prod.name, 'price': prod.price} for prod in products]), 200
