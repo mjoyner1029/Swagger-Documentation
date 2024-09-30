@@ -1,0 +1,266 @@
+swagger: '2.0'
+info:
+  description: API for managing factory operations, including employees, products, orders, customers, and production records.
+  version: 1.0.0
+  title: Factory Management System API
+basePath: /
+schemes:
+  - http
+paths:
+  /employees:
+    post:
+      summary: Create a new employee
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Employee'
+      responses:
+        201:
+          description: Employee created successfully
+          schema:
+            $ref: '#/definitions/EmployeeResponse'
+        400:
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      summary: Get all employees
+      responses:
+        200:
+          description: A list of employees
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EmployeeResponse'
+  /products:
+    post:
+      summary: Create a new product
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        201:
+          description: Product created successfully
+          schema:
+            $ref: '#/definitions/ProductResponse'
+        400:
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      summary: Get all products
+      responses:
+        200:
+          description: A list of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductResponse'
+  /customers:
+    post:
+      summary: Create a new customer
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        201:
+          description: Customer created successfully
+          schema:
+            $ref: '#/definitions/CustomerResponse'
+        400:
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      summary: Get all customers
+      responses:
+        200:
+          description: A list of customers
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerResponse'
+  /orders:
+    post:
+      summary: Create a new order
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        201:
+          description: Order created successfully
+          schema:
+            $ref: '#/definitions/OrderResponse'
+        400:
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      summary: Get all orders
+      responses:
+        200:
+          description: A list of orders
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderResponse'
+  /production:
+    post:
+      summary: Create a new production record
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Production'
+      responses:
+        201:
+          description: Production record created successfully
+          schema:
+            $ref: '#/definitions/ProductionResponse'
+        400:
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    get:
+      summary: Get all production records
+      responses:
+        200:
+          description: A list of production records
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductionResponse'
+definitions:
+  Employee:
+    type: object
+    properties:
+      name:
+        type: string
+      position:
+        type: string
+  EmployeeResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      position:
+        type: string
+  Product:
+    type: object
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+        format: float
+  ProductResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+        format: float
+  Customer:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+  CustomerResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+  Order:
+    type: object
+    properties:
+      customer_id:
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+  OrderResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      customer_id:
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+  Production:
+    type: object
+    properties:
+      product_id:
+        type: integer
+      quantity_produced:
+        type: integer
+      date_produced:
+        type: string
+        format: date
+  ProductionResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+      product_id:
+        type: integer
+      quantity_produced:
+        type: integer
+      date_produced:
+        type: string
+        format: date
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string

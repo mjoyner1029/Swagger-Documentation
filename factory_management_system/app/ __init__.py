@@ -9,7 +9,7 @@ limiter = Limiter()
 
 # Swagger settings
 SWAGGER_URL = '/swagger'
-API_URL = '/static/swagger.json'  # Path to your Swagger JSON file
+API_URL = '/static/swagger.yaml'  # Path to your Swagger YAML file
 
 swagger_ui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
