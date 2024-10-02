@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
 from app.models import db, Customer
+from flask_limiter import Limiter
 
 bp = Blueprint('customer', __name__)
+limiter = Limiter()
 
 @bp.route('/customers', methods=['POST'])
 @limiter.limit("10 per minute")

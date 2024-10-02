@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from flask_swagger_ui import get_swaggerui_blueprint
 from app.routes import bp as api_bp
 
 db = SQLAlchemy()
-limiter = Limiter()
+limiter = Limiter(key_func=get_remote_address)
 
 # Swagger settings
 SWAGGER_URL = '/swagger'
